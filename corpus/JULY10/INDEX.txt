@@ -1,0 +1,3 @@
+corpus/JULY10/gennady.korotkevich/ARRANGE2/JULY10_gennady.korotkevich_ARRANGE2.cpp
+corpus/JULY10/gennady.korotkevich/HAPPY/JULY10_gennady.korotkevich_HAPPY.cpp
+corpus/JULY10/gennady.korotkevich/LCM/JULY10_gennady.korotkevich_LCM.cpp

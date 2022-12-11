@@ -1,0 +1,52 @@
+Feature,Definition,Count,method 
+WordUnigramTF,Term frequency of word unigrams in,dynamic*,
+ln(numTernary/length),"Log of the number of occurrences of key-
+word divided by file length in characters,
+where keyword is one of do, else-if, if, else,
+switch, for or while",7,self.get_keywords_cpp()
+ln(numTokens/length),"                                                 
+Log of the number of word tokens divided
+by file length in characters",1,
+ln(numComments/ length),"Log of the number of comments divided by
+length)
+file length in characters",1,self.get_comments()
+"
+ln(numLiterals/length)","Log of the number of string, character, and
+numeric literals divided by file length in
+Characters",1,NumComments ()
+ln(numKeywords/length) ,"Log of the number of unique keywords
+used divided by file length in characters",1,self.get_keywords_cpp()
+ln(numFunctions/length),"Log of the number of functions divided by
+file length in characters",1,get_functions()
+ln(numMacros/length),"Log of the number of preprocessor direc-
+tives divided by file length in characters",1,
+nestingDepth,"Highest degree to which control statements
+and loops are nested within each other",1,
+branchingFactor,"Branching factor of the tree formed by con-
+verting code blocks of files into nodes",1,
+avgParams,"The average number of parameters among
+all functions",1,
+stdDevNumParams,"The standard deviation of the number of
+parameters among all functions",1,
+avgLineLength,The average length of each line,1,self.average_line_len()
+stdDevLineLength,"The standard deviation of the character
+lengths of each line",1,self.standard_dev_lines()
+ln(numTabs/length),"Log of the number of tab characters di-
+vided by file length in characters",1,self.get_char()
+ln(numSpaces/length),"Log of the number of space characters di-
+vided by file length in characters",1,self.get_char()
+"ln(numEmptyLines/
+Length)","Log of the number of empty lines divided
+by file length in characters, excluding
+leading and trailing lines between lines of
+Text",1,self.get_empty_lines()
+whiteSpaceRatio,"The ratio between the number of whites-
+pace characters (spaces, tabs, and new-
+lines) and non-whitespace characters",1,white_space_ratio(()
+"newLineBefore
+OpenBrace","A boolean representing whether the ma-
+jority of code-block braces are preceded
+by a newline character",1,self.white_space_ratio()
+tabsLeadLines,"A boolean representing whether the ma-
+jority of indented lines begin with spaces
+or tabs",1,self.indented_lines()
