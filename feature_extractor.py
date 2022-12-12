@@ -9,7 +9,7 @@ from largecollections import cpp_7keywords,cpp_keywords
 import math
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+from collections import Counter
 
 
 class FeaturesInterface(metaclass=abc.ABCMeta):
@@ -72,6 +72,9 @@ class FeaturesInterface(metaclass=abc.ABCMeta):
 
                 hasattr(subclass, 'calculate_ast_node_bigram_tf') and
                 callable(subclass.calculate_ast_node_bigram_tf) and
+
+                hasattr(subclass, 'get_term_frequency') and
+                callable(subclass.get_term_frequency) and
 
                 hasattr(subclass, 'data_chain') and
                 callable(subclass.data_chain) or
@@ -249,9 +252,16 @@ class FeaturesInterface(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def calculate_ast_node_bigram_tf(self,node_table_path:str, edge_table_path:str)->str:
         """
-
+        Term frequency AST node bigrams
         """
         return NotImplemented
+
+    @abc.abstractmethod
+    def get_term_frequency(self,nodes_file:str, edges_file:str) ->str:
+        """
+        Term frequency of code unigrams in
+        AST leaves
+        """
 
 
 
@@ -295,11 +305,19 @@ class FeatureExtractor(FeaturesInterface):
         """
         file_string = "".join(self.reads_text(file_name=files))
 
-        unigrams = file_string.split()
+        unigrams_list  = file_string.split()
 
-        return unigrams
+        collect = []
 
+        counter = Counter(unigrams_list)
+        for element, count in counter.items():
+            collect.append(count)
 
+            print(f"{element}: {count}")
+
+        summed = sum(collect)
+
+        return summed
 
 
 
@@ -633,7 +651,7 @@ class FeatureExtractor(FeaturesInterface):
         nodes = pd.read_csv(node_file,sep='\t')
         edges = pd.read_csv(edge_file,sep='\t')
 
-        # Correlate the nodes and edges by matching the "key" and "start" or "end" columns
+        #Correlate the nodes and edges by matching the "key" and "start" or "end" columns
         nodes = nodes.merge(edges, left_on="key", right_on="start", how="outer")
 
         #Count the total number of nodes and children in the tree
@@ -718,11 +736,54 @@ class FeatureExtractor(FeaturesInterface):
         bigrams["frequency"] = 1
 
         agg_functions = {'pair': 'first', 'frequency': 'sum'}
-
         combined = bigrams.groupby(bigrams['pair']).aggregate(agg_functions)
+        summed = combined["frequency"].sum()
 
 
-        return bigrams_list
+        return summed
+
+
+
+    def get_term_frequency(self, nodes_file: str, edges_file: str) -> str:
+        """
+        Term frequency of code unigrams in
+        AST leaves
+        """
+        # Load the nodes and edges tables from the CSV files
+        nodes = pd.read_csv(nodes_file, sep='\t')
+        edges = pd.read_csv(edges_file, sep='\t')
+
+        # Check if the command, key, and childNum columns are present in the nodes table
+        # and the start and end columns are present in the edges table
+        if "command" not in nodes.columns:
+            raise KeyError("The nodes table does not contain the 'command' column")
+        if "key" not in nodes.columns:
+            raise KeyError("The nodes table does not contain the 'key' column")
+        if "childNum" not in nodes.columns:
+            raise KeyError("The nodes table does not contain the 'childNum' column")
+        if "start" not in edges.columns:
+            raise KeyError("The edges table does not contain the 'start' column")
+        if "end" not in edges.columns:
+            raise KeyError("The edges table does not contain the 'end' column")
+
+        # Filter the nodes table to only include leaf nodes (nodes without children)
+        leaves = nodes[nodes["childNum"] == 0]
+
+        unigram_list = leaves["code"].tolist()
+
+        counter = Counter(unigram_list)
+
+        collect = []
+
+        for element, count in counter.items():
+            collect.append(count)
+            print(f"{element}: {count}")
+
+        summed = sum(collect)
+
+
+        return summed
+
 
 
 
@@ -732,14 +793,12 @@ class FeatureExtractor(FeaturesInterface):
         A series of methods that collects features
         from code
         """
-
-
         programmer, contest_list, round_list, numTernary_list, numKeywords_list = [], [], [], [], []
         numComments_list, avgLineLength_list, stdDevLineLength_list, numTabs_list = [], [], [], []
         numSpaces_list, numEmptyLines_list, whiteSpaceRatio_list, tabsLeadLines_list = [], [], [], []
         WordUnigramTF_list, numFunctions_list, numTokens_list, newLineBeforeOpenBrace_list = [], [], [], []
         branchingFactor_list, avgParams_list, cppKeywords_list, MaxDepthASTNode_list = [], [], [], []
-        ASTNodeBigramsTF_list= []
+        ASTNodeBigramsTF_list,CodeInASTLeavesTF_list = [],[]
 
         master_feature_dict = {'programmer': programmer,'contest':contest_list,'round':round_list,
                                'WordUnigramTF':WordUnigramTF_list,
@@ -754,11 +813,10 @@ class FeatureExtractor(FeaturesInterface):
                                'newLineBeforeOpenBrace':newLineBeforeOpenBrace_list,
                                'tabsLeadLines':tabsLeadLines_list,
                                'cppKeywords':cppKeywords_list,'MaxDepthASTNode':MaxDepthASTNode_list,
-                               'branchingFactor':branchingFactor_list,'ASTNodeBigramsTF':ASTNodeBigramsTF_list
+                               'branchingFactor':branchingFactor_list,'ASTNodeBigramsTF':ASTNodeBigramsTF_list,
+                               'CodeInASTLeavesTF':CodeInASTLeavesTF_list
 
                                }
-        bigrams_dict = {'ASTNodeBigramsTF':ASTNodeBigramsTF_list}
-
 
 
 
@@ -813,7 +871,7 @@ class FeatureExtractor(FeaturesInterface):
             #nestingDepth = len(child_list)/len(non_leafs_list)
             #nestingDepth_list.append(nestingDepth)
             #print(nodescsv,'<-----')
-            #time.sleep(10000)
+
 
             self.length = self.get_length(files=x)#len
 
@@ -824,12 +882,16 @@ class FeatureExtractor(FeaturesInterface):
             branchingFactor_list.append(branchingFactor)
 
             ASTNodeBigramsTF = self.calculate_ast_node_bigram_tf(node_table_path=nodescsv,edge_table_path=edgescsv)
-            bigrams = ', '.join(ASTNodeBigramsTF)
-            ASTNodeBigramsTF_list.append(bigrams)
+            ASTNodeBigramsTF_list.append(ASTNodeBigramsTF)
+
+
+            CodeInASTLeavesTF = self.get_term_frequency(nodes_file=nodescsv,edges_file=edgescsv)
+            CodeInASTLeavesTF_list.append(CodeInASTLeavesTF)#
+
 
             WordUnigramTF = self.get_unigrams_freq(files=x)
-            uni = ', '.join(WordUnigramTF)
-            WordUnigramTF_list.append(uni)
+            #uni = ', '.join(WordUnigramTF)
+            WordUnigramTF_list.append(WordUnigramTF)
 
             key_words = self.get_keywords7_cpp(files=x)
             numTernary = key_words[0]#
@@ -884,13 +946,11 @@ class FeatureExtractor(FeaturesInterface):
             cppKeywords_list.append(cppKeywords)
 
         master_df = pd.DataFrame(master_feature_dict)
-        #master_df = pd.get_dummies(master_df, columns=['ASTNodeBigramsTF'])
-        bigrams_df = pd.DataFrame(bigrams_dict)
+
         print((master_df))
-        print(bigrams_df)
+
 
         master_df.to_csv('output/feature_extraction.csv')
-        bigrams_df.to_csv('output/bigrams.csv')
 
 
 
