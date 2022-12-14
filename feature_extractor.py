@@ -79,8 +79,9 @@ class FeaturesInterface(metaclass=abc.ABCMeta):
                 hasattr(subclass, 'data_chain') and
                 callable(subclass.data_chain) or
 
-
                 NotImplemented)
+
+
 
 
     @abc.abstractmethod
@@ -298,6 +299,7 @@ class FeatureExtractor(FeaturesInterface):
         return  the_file
 
 
+
     def get_unigrams_freq(self, files: str) -> str:
         """
         Unigram Freequency
@@ -318,9 +320,6 @@ class FeatureExtractor(FeaturesInterface):
         summed = sum(collect)
 
         return summed
-
-
-
 
 
 
@@ -618,6 +617,7 @@ class FeatureExtractor(FeaturesInterface):
 
 
 
+
     def get_braces(self, files: str) ->str:
         """
         A boolean representing whether the ma-
@@ -640,6 +640,8 @@ class FeatureExtractor(FeaturesInterface):
             return True
         else:
             return False
+
+
 
 
 
@@ -676,13 +678,8 @@ class FeatureExtractor(FeaturesInterface):
         nodes = pd.read_csv(node_file,sep='\t')
         edges = pd.read_csv(edge_file,sep='\t')
 
-
         # Correlate the nodes and edges by matching the "key" and "start" or "end" columns
         nodes = nodes.merge(edges, left_on="key", right_on="start", how="outer")
-
-
-
-
 
         # Set the maximum depth to 0
         max_depth = 0
@@ -836,9 +833,6 @@ class FeatureExtractor(FeaturesInterface):
             programmer.append(meta[2])
             contest_list.append(meta[1])
             round_list.append(meta[3])
-
-
-
             """
             Calculating the branching factor
             By using Joren generated .csv
@@ -872,7 +866,6 @@ class FeatureExtractor(FeaturesInterface):
             #nestingDepth_list.append(nestingDepth)
             #print(nodescsv,'<-----')
 
-
             self.length = self.get_length(files=x)#len
 
             MaxDepthASTNode = self.calculate_maximum_depth(node_file=nodescsv,edge_file=edgescsv)
@@ -884,10 +877,8 @@ class FeatureExtractor(FeaturesInterface):
             ASTNodeBigramsTF = self.calculate_ast_node_bigram_tf(node_table_path=nodescsv,edge_table_path=edgescsv)
             ASTNodeBigramsTF_list.append(ASTNodeBigramsTF)
 
-
             CodeInASTLeavesTF = self.get_term_frequency(nodes_file=nodescsv,edges_file=edgescsv)
             CodeInASTLeavesTF_list.append(CodeInASTLeavesTF)#
-
 
             WordUnigramTF = self.get_unigrams_freq(files=x)
             #uni = ', '.join(WordUnigramTF)

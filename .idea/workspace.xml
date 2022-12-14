@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2754d-4683-4c39-a6a8-9e51e68f7e61" name="Changes" comment="Initial">
+    <list default="true" id="ddc2754d-4683-4c39-a6a8-9e51e68f7e61" name="Changes" comment="Update0">
+      <change afterPath="$PROJECT_DIR$/github_download.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/openai.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classify.py" beforeDir="false" afterPath="$PROJECT_DIR$/classify.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contests.py" beforeDir="false" afterPath="$PROJECT_DIR$/contests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/feature_extractor.py" beforeDir="false" afterPath="$PROJECT_DIR$/feature_extractor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/height_depth.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/.~lock.feature_extraction.csv#" beforeDir="false" afterPath="$PROJECT_DIR$/output/.~lock.feature_extraction.csv#" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/feature_extraction.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/feature_extraction.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processdata.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_rand.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_toke.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_train.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +45,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Python.feature_extractor">
+  <component name="RunManager" selected="Python.github_download">
     <configuration name="classify" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="iridescent" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -115,6 +109,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="github_download" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="iridescent" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/github_download.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="iridescent" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -157,34 +172,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="iridescent" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_train.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.feature_extractor" />
+        <item itemvalue="Python.github_download" />
         <item itemvalue="Python.classify" />
+        <item itemvalue="Python.feature_extractor" />
         <item itemvalue="Python.test_rand" />
         <item itemvalue="Python.contests" />
-        <item itemvalue="Python.test_train" />
       </list>
     </recent_temporary>
   </component>
@@ -197,6 +191,14 @@
       <option name="presentableId" value="Default" />
       <updated>1669200342145</updated>
     </task>
+    <task id="LOCAL-00001" summary="Update0">
+      <created>1670873275706</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1670873275706</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -209,6 +211,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update0" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update0" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

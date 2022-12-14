@@ -40,8 +40,6 @@ def classify(data):
         df[column] = pd.factorize(df[column])[0]
 
 
-
-
     cols = list(df.columns.values)
     x = df[cols[1:]]
     y = df[['programmer']]
